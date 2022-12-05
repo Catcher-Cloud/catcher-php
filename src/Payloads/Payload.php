@@ -26,30 +26,8 @@ class Payload
         return array_key_exists('level', $this->data) ? $this->data['level'] : null;
     }
 
-    protected function getCaller(): array
-    {
-        $result = [];
-
-        foreach (debug_backtrace() as $value) {
-            foreach (['function' => strtolower($this->getLevel()), 'class' => Catcher::class] as $k => $v) {
-                if (!isset($value[$k]) || $value[$k] != $v) {
-                    continue 2;
-                }
-            }
-
-            $result[] = $value;
-        }
-
-        return !empty($result) ? [
-            'file' => $result[0]['file'],
-            'line' => $result[0]['line']
-        ] : [];
-    }
-
     public function __toString(): string
     {
-        $caller = $this->getCaller();
-
         $data = [
             'title' => array_key_exists('title', $this->data) ? $this->data['title'] : null,
             'level' => array_key_exists('level', $this->data) ? $this->data['level'] : null,
@@ -60,13 +38,13 @@ class Payload
             'request_verb' => array_key_exists('request_verb', $this->data) ? $this->data['request_verb'] : $_SERVER['REQUEST_METHOD'],
         ];
 
-        $data['file'] = array_key_exists('file', $this->data)
-            ? $this->data['file']
-            : $caller['file'];
+        if(array_key_exists('file', $this->data)) {
+            $data['file'] = $this->data['file'];
+        }
 
-        $data['line'] = array_key_exists('line', $this->data)
-            ? $this->data['line']
-            : $caller['line'];
+        if(array_key_exists('line', $this->data)) {
+            $data['line'] = $this->data['line'];
+        };
 
         return json_encode($data);
     }

@@ -40,7 +40,7 @@ class Response
             return null;
         }
 
-        return "https://catcher.cloud/issues/" . urlencode($this->uuid);
+        return "https://app.catcher.cloud/issues/" . urlencode($this->uuid);
     }
 
     public function __toString()
