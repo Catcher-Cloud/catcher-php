@@ -2,6 +2,7 @@
 
 namespace Catcher;
 
+use Catcher\Payloads\Level;
 use Catcher\Payloads\Payload;
 
 class Logger
@@ -20,15 +21,32 @@ class Logger
 
         $payload = $this->getPayload($accessToken, $level, $data);
 
-//        $serialized = $payload->serialize($this->config->getMaxNestingDepth());
-
-//        $scrubbed = $this->scrub($serialized);
-
-//        $encoded = $this->encode($scrubbed);
-
-//        $truncated = $this->truncate($encoded);
-
         return $this->send($payload, $accessToken);
+    }
+
+    public function debug($data): ?Response
+    {
+        return self::log(Level::DEBUG, $data);
+    }
+
+    public function info($data): ?Response
+    {
+        return self::log(Level::INFO, $data);
+    }
+
+    public function warning($data): ?Response
+    {
+        return self::log(Level::WARNING, $data);
+    }
+
+    public function error($data): ?Response
+    {
+        return self::log(Level::ERROR, $data);
+    }
+
+    public function critical($data): ?Response
+    {
+        return self::log(Level::CRITICAL, $data);
     }
 
     public function builder(): Builder
