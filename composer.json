@@ -1,9 +1,11 @@
 {
-    "name": "catcher-cloud/php",
+    "name": "catcher-cloud/catcher-php",
     "type": "library",
     "require": {
         "php": "8.1",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
         "larapack/dd": "^1.1",
         "tightenco/collect": "^9.33"
     },
